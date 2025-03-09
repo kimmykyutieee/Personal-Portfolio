@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subjects Taken</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0a192f;
+            color: #ccd6f6;
+            text-align: center;
+        }
+        header {
+            background: #112240;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: #64ffda;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+        section {
+            padding: 20px;
+            margin: 20px;
+            background: #112240;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(100, 255, 218, 0.2);
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: #112240;
+            color: #ccd6f6;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #64ffda;
+        }
+        th {
+            background: #64ffda;
+            color: #112240;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#education">Education</a></li>
+                <li><a href="index.html#skills">Skills</a></li>
+                <li><a href="index.html#portfolio">Portfolio</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h1>Subjects Taken</h1>
+    <p>Below is a list of all the subjects I have taken from my 1st year up to my current semester.</p>
+    <table id="courses-table">
+        <thead>
+            <tr>
+                <th>Year Level</th>
+                <th>Semester</th>
+                <th>Code</th>
+                <th>Description</th>
+                <th>Credit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="5">Loading...</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('courses.json') // Ensure this path is correct
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Fetched Data:", data); // Debugging
+                    displayCourses(data);
+                })
+                .catch(error => {
+                    console.error('Error loading data:', error);
+                    document.querySelector("#courses-table tbody").innerHTML = `<tr><td colspan="5">Failed to load data.</td></tr>`;
+                });
+        });
+    
+        function displayCourses(data) {
+            let tableBody = document.querySelector("#courses-table tbody");
+            tableBody.innerHTML = ""; // Clear previous content
+    
+            data.courses.forEach(course => {
+                let row = `<tr>
+                    <td>${course.year_level}</td>
+                    <td>${course.sem}</td>
+                    <td>${course.code}</td>
+                    <td>${course.description}</td>
+                    <td>${course.credit}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+    </script>    
+
+</body>
+</html>
